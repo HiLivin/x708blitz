@@ -1,6 +1,6 @@
 # x708blitz :zap:
 
-**A fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to be compatible with [RaspiBlitz](https://github.com/rootzoll/raspiblitz)**
+**This is a fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to be compatible with [RaspiBlitz](https://github.com/rootzoll/raspiblitz)**
 
 **The UPS HAT safely shutdowns `bitcoind` etc. before cutting off the power when:**
 - the AC power is lost
@@ -20,10 +20,11 @@ Still ***USE AT YOUR OWN RISK!***
 
 ## Setup
 
-#### Enable I2C interface and install prerequisites:
+#### Enable I2C interface, install prerequisites & allow admin access to GPIO and I2C (for the py scripts to work):
 ```
 sudo raspi-config nonint do_i2c 0
 sudo apt-get install python3-smbus i2c-tools
+sudo usermod -a -G gpio,i2c $USER
 ```
 
 #### Clone the repository and run the installation script:
