@@ -24,7 +24,7 @@ while [ 1 ]; do
       if [ $(($(date +%s%3N)-$pulseStart)) -gt $REBOOTPULSEMAXIMUM ]; then
         echo "X708 Shutting down..."
         echo "Shutting down RaspiBlitz..."
-        off
+        sudo /home/admin/config.scripts/blitz.shutdown.sh
         exit
       fi
       shutdownSignal=$(cat /sys/class/gpio/gpio$SHUTDOWN/value)
@@ -32,7 +32,7 @@ while [ 1 ]; do
     if [ $(($(date +%s%3N)-$pulseStart)) -gt $REBOOTPULSEMINIMUM ]; then 
       echo "X708 rebooting..."
       echo "Rebooting RaspiBlitz..."
-      restart
+      sudo /home/admin/config.scripts/blitz.shutdown.sh reboot
       exit
     fi
   fi
