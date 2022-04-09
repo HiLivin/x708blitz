@@ -67,3 +67,10 @@ echo "0" > /sys/class/gpio/gpio$BUTTON/value
 sudo chmod +x /usr/local/bin/x708softsd.sh
 printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bash_aliases 
 
+
+#Change OFF entry in RaspiBlitz main menu to perform x708off command
+sed -i '183c OPTIONS+=(X708OFF "PowerOff RaspiBlitz and X708 UPS HAT")' /home/admin/00mainMenu.sh
+sed -i '344c \ \ \ \ \ \ \ \ X708OFF)' /home/admin/00mainMenu.sh
+sed -i '351c \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sudo /usr/local/bin/x708softsd.sh' /home/admin/00mainMenu.sh
+
+

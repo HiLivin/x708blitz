@@ -55,6 +55,6 @@ _Shutting down with the old `off` won't turn off the X708 board._
 - https://wiki.geekworm.com/X708
 
 ## TODO:
-- [ ] Modify RaspiBlitz menu entry to perform X708 software shutdown instead of `off`
+- [x] Modify RaspiBlitz menu entry to perform X708 software shutdown instead of `off`
 - [ ] Include battery and AC supply info on the status screen
 - [ ] Include uninstall script
