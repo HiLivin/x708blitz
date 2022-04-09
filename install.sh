@@ -13,8 +13,6 @@ echo "$BOOT" > /sys/class/gpio/export
 echo "out" > /sys/class/gpio/gpio$BOOT/direction
 echo "1" > /sys/class/gpio/gpio$BOOT/value
 
-echo "X708 Shutting down..."
-
 while [ 1 ]; do
   shutdownSignal=$(cat /sys/class/gpio/gpio$SHUTDOWN/value)
   if [ $shutdownSignal = 0 ]; then
@@ -24,15 +22,17 @@ while [ 1 ]; do
     while [ $shutdownSignal = 1 ]; do
       /bin/sleep 0.02
       if [ $(($(date +%s%3N)-$pulseStart)) -gt $REBOOTPULSEMAXIMUM ]; then
-        echo "X708 Shutting down", SHUTDOWN, ", shutting down RaspiBlitz ..."
-        sudo off
+        echo "X708 Shutting down..."
+        echo "Shutting down RaspiBlitz..."
+        off
         exit
       fi
       shutdownSignal=$(cat /sys/class/gpio/gpio$SHUTDOWN/value)
     done
     if [ $(($(date +%s%3N)-$pulseStart)) -gt $REBOOTPULSEMINIMUM ]; then 
-      echo "X708 Rebooting", SHUTDOWN, ", rebooting RaspiBlitz ..."
-      sudo restart
+      echo "X708 rebooting..."
+      echo "Rebooting RaspiBlitz..."
+      restart
       exit
     fi
   fi
@@ -65,5 +65,5 @@ echo "X708 Shutting down..."
 echo "0" > /sys/class/gpio/gpio$BUTTON/value
 ' > /usr/local/bin/x708softsd.sh
 sudo chmod +x /usr/local/bin/x708softsd.sh
-printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bashrc 
+printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bash_aliases 
 
