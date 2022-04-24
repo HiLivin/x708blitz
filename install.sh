@@ -1,4 +1,4 @@
-#x708 V1.3 Powering on /reboot /full shutdown through hardware
+# x708 powering on /reboot / full shutdown through hardware
 #!/bin/bash
 
 echo '#!/bin/bash
@@ -22,7 +22,7 @@ while [ 1 ]; do
     while [ $shutdownSignal = 1 ]; do
       /bin/sleep 0.02
       if [ $(($(date +%s%3N)-$pulseStart)) -gt $REBOOTPULSEMAXIMUM ]; then
-        echo "X708 Shutting down..."
+        echo "X708 shutting down..."
         echo "Shutting down RaspiBlitz..."
         sudo /home/admin/config.scripts/blitz.shutdown.sh
         exit
@@ -41,7 +41,7 @@ sudo chmod +x /etc/x708pwr.sh
 sudo sed -i '$ i /etc/x708pwr.sh &' /etc/rc.local 
 
 
-#X708 full shutdown through Terminal
+# X708 full shutdown through "x708off" command
 #!/bin/bash
 
 echo '#!/bin/bash
@@ -56,19 +56,24 @@ SLEEP=${1:-4}
 
 re='^[0-9\.]+$'
 if ! [[ $SLEEP =~ $re ]] ; then
-   echo "error: sleep time not a number" >&2; exit 1
+	echo "error: sleep time not a number" >&2; exit 1
 fi
 
-echo "X708 Shutting down..."
+echo "X708 shutting down..."
+
 /bin/sleep $SLEEP
 
 echo "0" > /sys/class/gpio/gpio$BUTTON/value
 ' > /usr/local/bin/x708softsd.sh
 sudo chmod +x /usr/local/bin/x708softsd.sh
-printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bash_aliases 
+printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bash_aliases
 
 
-#Change OFF entry in RaspiBlitz main menu to perform x708off command
+# X708 fan control python script
+sudo sed -i '$ i /home/admin/x708blitz/x708.fan.py &' /etc/rc.local
+
+
+#Change OFF entry in RaspiBlitz main menu to perform X708 shutdown
 sed -i '183c OPTIONS+=(X708OFF "PowerOff RaspiBlitz and X708 UPS HAT")' /home/admin/00mainMenu.sh
 sed -i '344c \ \ \ \ \ \ \ \ X708OFF)' /home/admin/00mainMenu.sh
 sed -i '351c \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sudo /usr/local/bin/x708softsd.sh' /home/admin/00mainMenu.sh
