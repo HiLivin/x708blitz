@@ -56,7 +56,7 @@ SLEEP=${1:-4}
 
 re='^[0-9\.]+$'
 if ! [[ $SLEEP =~ $re ]] ; then
-	echo "error: sleep time not a number" >&2; exit 1
+  echo "error: sleep time not a number" >&2; exit 1
 fi
 
 echo "X708 shutting down..."
@@ -70,7 +70,7 @@ printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bash_aliases
 
 
 # X708 fan control python script
-sudo sed -i '$ i /home/admin/x708blitz/x708.fan.py &' /etc/rc.local
+sudo sed -i '$ i python3 /home/admin/x708blitz/x708.fan.py &' /etc/rc.local
 
 
 #Change OFF entry in RaspiBlitz main menu to perform X708 shutdown

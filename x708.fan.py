@@ -5,10 +5,11 @@ import time
 from gpiozero import OutputDevice
 from gpiozero import CPUTemperature
 
-ON_THRESHOLD = 40	# (degrees Celsius) Fan running at high speed at this temperature.
-OFF_THRESHOLD = 32	# (degress Celsius) Fan running at low speed  at this temperature.
-SLEEP_INTERVAL = 1	# (seconds) How often we check the core temperature.
-GPIO_PIN = 16		# Fan speed control pin
+ON_THRESHOLD = 40   # (degrees Celsius) Fan running at high speed at this temperature.
+OFF_THRESHOLD = 32  # (degress Celsius) Fan running at low speed  at this temperature.
+SLEEP_INTERVAL = 1  # (seconds) How often we check the core temperature.
+
+GPIO_PIN = 16       # Fan speed control pin
 
 
 if __name__ == '__main__':

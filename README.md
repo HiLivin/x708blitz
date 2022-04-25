@@ -1,43 +1,39 @@
-# x708blitz :zap:
+# [WIP] x708blitz :zap:
 
 **This is a fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to be compatible with [RaspiBlitz](https://github.com/rootzoll/raspiblitz)**
 
 **The UPS HAT safely shutdowns `bitcoind` etc. before cutting off the power when:**
-- the AC power is lost
-- OR the battery is low
-- OR the button was pressed
+- the board button was pressed
+- the AC power is lost and battery is low
 
 **`The scripts were tested on Geekworm/Suptronics X708 v1.2 board with RaspiBlitz v1.7.2`**
 
-Still ***USE AT YOUR OWN RISK!***
+Still, it's' WORK IN PROGRESS ***USE AT YOUR OWN RISK!***
 
 ## Contents
-- `x708bat.py`  -- Reading battery voltage & capacity. Automatic safe shutdown when battery low 
-- `x708fan.py` -- Automatic fan speed control depending on custom CPU temperature thresholds
-- `x708pld.py` -- Testing the power loss detection 
-- `x708plsd.py` -- Automatic safe shutdown after AC power loss or power adapter failure 
-- `install.sh` -- Install script adds `x708off` bash command and manages board button action
+- `x708.info.py` - Reading AC status & battery voltage. Auto shutdown when battery is low and AC is gone
+- `x708.fan.py` - Automatic fan speed control depending on custom-set CPU temperature thresholds
+- `install.sh` - Install script creates board signal managers and adds `x708off` bash command
+- `uninstall.sh` - Uninstall script reverts the changes and removes the repository
 
 ## Setup
 
-#### Enable I2C interface, install prerequisites & allow admin access to GPIO and I2C (for the py scripts to work):
+#### On RaspiBlitz patched with HiLivin/raspiblitz:feature-x708-support:
 ```
-sudo raspi-config nonint do_i2c 0
-sudo apt-get install python3-smbus i2c-tools
-sudo usermod -a -G gpio,i2c $USER
+sudo /home/admin/config.scripts/blitz.ups.sh on x708
 ```
 
-#### Clone the repository and run the installation script:
+#### If you wish, you may change the custom values in the scripts:
+In file `x708.info.py`:
 ```
-git clone https://github.com/HiLivin/x708blitz.git
-cd x708blitz
-chmod +x install.sh
-sudo bash install.sh
+MIN_VOLTAGE = 4.0   # (volts) shutdown when voltage drops below this value
 ```
 
-#### To use a python script check it first to edit custom parameters and proceed:
+In file `x708.fan.py`:
 ```
-sudo echo "python3 $PWD/SCRIPT_NAME.py &" >> /etc/rc.local
+ON_THRESHOLD = 40   # (degrees Celsius) Fan running at high speed at this temperature.
+OFF_THRESHOLD = 32  # (degress Celsius) Fan running at low speed  at this temperature.
+SLEEP_INTERVAL = 1  # (seconds) How often we check the core temperature.
 ```
 
 #### Reboot to apply changes:
@@ -51,10 +47,12 @@ _To safely reboot use `restart` command (as usual) or hold the button for 1-2 se
 
 _Shutting down with the old `off` won't turn off the X708 board._
 
+_The UPS info should be seen on the status screen just right to your node's alias._
+
 ## Link to the Geekworm wiki
 - https://wiki.geekworm.com/X708
 
 ## TODO:
 - [x] Modify RaspiBlitz menu entry to perform X708 software shutdown instead of `off`
-- [ ] Include battery and AC supply info on the status screen
-- [ ] Include uninstall script
+- [x] Include battery and AC supply info on the status screen (done by RaspiBlitz `_background.scan.sh`)
+- [x] Include uninstall script
