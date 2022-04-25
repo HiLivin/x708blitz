@@ -66,7 +66,7 @@ echo "X708 shutting down..."
 echo "0" > /sys/class/gpio/gpio$BUTTON/value
 ' > /usr/local/bin/x708softsd.sh
 sudo chmod +x /usr/local/bin/x708softsd.sh
-printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> ~/.bash_aliases
+printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> /home/admin/.bash_aliases
 
 
 # X708 fan control python script
