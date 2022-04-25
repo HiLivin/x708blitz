@@ -13,23 +13,25 @@ GPIO_PIN = 16       # Fan speed control pin
 
 
 if __name__ == '__main__':
-    # Validate the on and off thresholds
-    if OFF_THRESHOLD >= ON_THRESHOLD:
-        raise RuntimeError('OFF_THRESHOLD must be less than ON_THRESHOLD')
 
-    fan = OutputDevice(GPIO_PIN)
+  # Validate the on and off thresholds
+  if OFF_THRESHOLD >= ON_THRESHOLD:
+    raise RuntimeError('OFF_THRESHOLD must be less than ON_THRESHOLD')
 
-    while True:
-        temp = int(CPUTemperature().temperature)
+  fan = OutputDevice(GPIO_PIN)
 
-        # Switch to high speed fan if the temperature has reached the limit and the fan
-        # isn't already running high
-        # NOTE: `fan.value` returns 1 for "on" and 0 for "off"
-        if temp > ON_THRESHOLD and not fan.value:
-            fan.on()
+  while True:
+    temp = int(CPUTemperature().temperature)
 
-        # Switch to low speed if the fan is runnning high and the temperature has dropped
-        elif fan.value and temp < OFF_THRESHOLD:
-            fan.off()
+    # Switch to high speed fan if the temperature has reached the limit and the fan
+    # isn't already running high
+    # NOTE: `fan.value` returns 1 for "on" and 0 for "off"
+    if temp > ON_THRESHOLD and not fan.value:
+      fan.on()
 
-        time.sleep(SLEEP_INTERVAL)
+    # Switch to low speed if the fan is runnning high and the temperature has dropped
+    elif fan.value and temp < OFF_THRESHOLD:
+      fan.off()
+
+    time.sleep(SLEEP_INTERVAL)
+

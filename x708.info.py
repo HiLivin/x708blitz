@@ -8,10 +8,10 @@ import RPi.GPIO as GPIO
 
 MIN_VOLTAGE = 4.0         # (volts) shutdown when voltage drops below this value
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(6, GPIO.IN)    # PLD pin, high when the AC power loss is detected
 GPIO.setup(13, GPIO.OUT)  # shutdown pin
-GPIO.setwarnings(False)
 
 
 def readVoltage(bus):
@@ -23,18 +23,13 @@ def readVoltage(bus):
   return voltage
 
 
-def shutdown():
-
-  GPIO.output(13, GPIO.HIGH)
-  time.sleep(3)
-  GPIO.output(13, GPIO.LOW)
-
-
 bus = smbus.SMBus(1)
 
 status = ""
 voltage = readVoltage(bus)
 pld = GPIO.input(6)
+
+GPIO.cleanup()
 
 if pld:
   status = "ONBATT"
@@ -45,7 +40,6 @@ else:
 if pld and (voltage < MIN_VOLTAGE):
   status = "SHUTTING DOWN"
   subprocess.Popen("/usr/local/bin/x708softsd.sh", shell=True)
-  # shutdown()
 
 print(status + "," + "{:.2f}".format(voltage) + "V,")
 
