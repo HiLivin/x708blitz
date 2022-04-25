@@ -38,7 +38,7 @@ SLEEP_INTERVAL = 1  # (seconds) How often we check the core temperature.
 
 #### Reboot to apply changes:
 ```
-sudo restart
+restart
 ```
 
 _When done you should be able to safely shutdown your RaspiBlitz with `x708off` command or by holding the board button for 3-7 seconds._

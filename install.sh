@@ -69,7 +69,12 @@ sudo chmod +x /usr/local/bin/x708softsd.sh
 printf "%s\n" "alias x708off='sudo x708softsd.sh'" >> /home/admin/.bash_aliases
 
 
+# X708 info and auto shutdown script
+sudo chmod +x /home/admin/x708blitz/x708.info.py
+
+
 # X708 fan control python script
+sudo chmod +x /home/admin/x708blitz/x708.fan.py
 sudo sed -i '$ i python3 /home/admin/x708blitz/x708.fan.py &' /etc/rc.local
 
 

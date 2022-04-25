@@ -36,9 +36,9 @@ status = ""
 voltage = readVoltage(bus)
 pld = GPIO.input(6)
 
-if pld
+if pld:
   status = "ONBATT"
-else
+else:
   status = "ONLINE"
 
 # software shutdown when AC is off and battery voltage LOW
