@@ -4,14 +4,12 @@ import struct
 import smbus
 import sys
 import subprocess
-import RPi.GPIO as GPIO
 
-MIN_VOLTAGE = 4.0         # (volts) shutdown when voltage drops below this value
+from gpiozero import InputDevice
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(6, GPIO.IN)    # PLD pin, high when the AC power loss is detected
-GPIO.setup(13, GPIO.OUT)  # shutdown pin
+MIN_VOLTAGE = 4.0   # (volts) shutdown when voltage drops below this value
+
+PLD_PIN = 6         # Power loss detection pin
 
 
 def readVoltage(bus):
@@ -27,9 +25,7 @@ bus = smbus.SMBus(1)
 
 status = ""
 voltage = readVoltage(bus)
-pld = GPIO.input(6)
-
-GPIO.cleanup()
+pld = InputDevice(PLD_PIN).value
 
 if pld:
   status = "ONBATT"
