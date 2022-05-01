@@ -9,7 +9,7 @@ ON_THRESHOLD = 40   # (degrees Celsius) Fan running at high speed at this temper
 OFF_THRESHOLD = 32  # (degress Celsius) Fan running at low speed  at this temperature.
 SLEEP_INTERVAL = 1  # (seconds) How often we check the core temperature.
 
-GPIO_PIN = 16       # Fan speed control pin
+FAN_PIN = 16        # Fan speed control pin
 
 
 if __name__ == '__main__':
@@ -18,7 +18,7 @@ if __name__ == '__main__':
   if OFF_THRESHOLD >= ON_THRESHOLD:
     raise RuntimeError('OFF_THRESHOLD must be less than ON_THRESHOLD')
 
-  fan = OutputDevice(GPIO_PIN)
+  fan = OutputDevice(FAN_PIN)
 
   while True:
     temp = int(CPUTemperature().temperature)
