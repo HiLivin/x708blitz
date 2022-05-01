@@ -2,7 +2,7 @@
 
 **This is a fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to be compatible with [RaspiBlitz](https://github.com/rootzoll/raspiblitz)**
 
-**The UPS HAT safely shutdowns `bitcoind` etc. before cutting off the power when:**
+**The UPS HAT safely shutdowns `bitcoind`, `lnd` etc. before cutting off the power when:**
 - the board button was pressed
 - the AC power is lost and battery is low
 
@@ -43,11 +43,17 @@ restart
 
 _When done you should be able to safely shutdown your RaspiBlitz with `x708off` command or by holding the board button for 3-7 seconds._
 
-_To safely reboot use `restart` command (as usual) or hold the button for 1-2 seconds._
+_To safely reboot use `restart` command as usual or hold the button for 1-2 seconds._
 
-_Shutting down with the old `off` won't turn off the X708 board._
+_Shutting down with the old `off` won't turn off the X708 board!_
 
 _The UPS info should be seen on the status screen just right to your node's alias._
+
+
+#### To uninstall use this command:
+```
+sudo /home/admin/config.scripts/blitz.ups.sh off
+```
 
 ## Link to the Geekworm wiki
 - https://wiki.geekworm.com/X708
