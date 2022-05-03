@@ -1,42 +1,43 @@
 # [WIP] x708blitz :zap:
 
-**This is a fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to be compatible with [RaspiBlitz](https://github.com/rootzoll/raspiblitz)**
+*This is a fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to integrate X708 UPS HAT with [RaspiBlitz](https://github.com/rootzoll/raspiblitz)*
 
-**The UPS HAT safely shutdowns `bitcoind`, `lnd` etc. before cutting off the power when:**
-- the board button was pressed
-- the AC power is lost and battery is low
+**The scripts manage button action, AC power loss detection, battery level, fan speed and ensure a safe shutdown of `bitcoind`, `lnd` etc. before cutting off the power**
 
-**`The scripts were tested on Geekworm/Suptronics X708 v1.2 board with RaspiBlitz v1.7.2`**
+Safe shutdown is triggered by:
+- board button
+- low battery voltage when AC is lost
+- `x708off` command
 
-Still, it's' WORK IN PROGRESS ***USE AT YOUR OWN RISK!***
+> **Scripts were tested on Geekworm/Suptronics X708 v1.2 board with RaspiBlitz v1.7.2**
 
 ## Contents
-- `x708.info.py` - Reading AC status & battery voltage. Auto shutdown when battery is low and AC is gone
-- `x708.fan.py` - Automatic fan speed control depending on custom-set CPU temperature thresholds
-- `install.sh` - Install script creates board signal managers and adds `x708off` bash command
-- `uninstall.sh` - Uninstall script reverts the changes and removes the repository
+- `x708.info.py` - Fetch AC status & battery voltage. Auto shutdown when AC is lost and battery low
+- `x708.fan.py` - Automatic fan speed control based on custom-set CPU temperature thresholds
+- `install.sh` - Install bash and python scripts, add `x708off` command
+- `uninstall.sh` - Revert the changes and remove the repository
 
 ## Setup
 
-#### On RaspiBlitz patched with HiLivin/raspiblitz:feature-x708-support:
+#### On RaspiBlitz patched with `HiLivin/raspiblitz:feature-x708-support` type:
 ```
 sudo /home/admin/config.scripts/blitz.ups.sh on x708
 ```
 
-#### If you wish, you may change the custom values in the scripts:
-In file `x708.info.py`:
+#### You may change the custom values in the scripts:
+In file `/home/admin/x708blitz/x708.info.py`:
 ```
 MIN_VOLTAGE = 4.0   # (volts) shutdown when voltage drops below this value
 ```
 
-In file `x708.fan.py`:
+In file `/home/admin/x708blitz/x708.fan.py`:
 ```
-ON_THRESHOLD = 40   # (degrees Celsius) Fan running at high speed at this temperature.
-OFF_THRESHOLD = 32  # (degress Celsius) Fan running at low speed  at this temperature.
-SLEEP_INTERVAL = 1  # (seconds) How often we check the core temperature.
+HIGH_THRESHOLD = 40 # (degrees Celsius) Fan running at high speed at this temperature.
+LOW_THRESHOLD = 32  # (degress Celsius) Fan running at low speed  at this temperature.
+SLEEP_INTERVAL = 1  # (seconds) How often do we check the core temperature.
 ```
 
-#### Reboot to apply changes:
+#### Restart to apply changes:
 ```
 restart
 ```
@@ -55,10 +56,6 @@ _The UPS info should be seen on the status screen just right to your node's alia
 sudo /home/admin/config.scripts/blitz.ups.sh off
 ```
 
-## Link to the Geekworm wiki
+## Links
+### Geekworm wiki
 - https://wiki.geekworm.com/X708
-
-## TODO:
-- [x] Modify RaspiBlitz menu entry to perform X708 software shutdown instead of `off`
-- [x] Include battery and AC supply info on the status screen (done by RaspiBlitz `_background.scan.sh`)
-- [x] Include uninstall script
