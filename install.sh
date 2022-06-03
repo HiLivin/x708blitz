@@ -13,6 +13,13 @@ echo "$BOOT" > /sys/class/gpio/export
 echo "out" > /sys/class/gpio/gpio$BOOT/direction
 echo "1" > /sys/class/gpio/gpio$BOOT/value
 
+x708_timer_restart(){
+  while [ 1 ]; do
+    /bin/sleep 50
+    sudo /usr/local/bin/x708softsd.sh
+  done
+}
+
 while [ 1 ]; do
   shutdownSignal=$(cat /sys/class/gpio/gpio$SHUTDOWN/value)
   if [ $shutdownSignal = 0 ]; then
@@ -24,6 +31,7 @@ while [ 1 ]; do
       if [ $(($(date +%s%3N)-$pulseStart)) -gt $REBOOTPULSEMAXIMUM ]; then
         echo "X708 shutting down..."
         echo "Shutting down RaspiBlitz..."
+        x708_timer_restart &
         sudo /home/admin/config.scripts/blitz.shutdown.sh
         exit
       fi

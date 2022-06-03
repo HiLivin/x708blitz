@@ -1,4 +1,4 @@
-# [WIP] x708blitz :zap:
+# x708blitz :zap:
 
 *This is a fork of [x708v2.0](https://github.com/suptronics/x708v2.0) modified to integrate the X708 UPS HAT with [RaspiBlitz](https://github.com/rootzoll/raspiblitz) node*
 
