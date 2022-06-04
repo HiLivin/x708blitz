@@ -1,0 +1,35 @@
+--- 00mainMenu.sh.orig	2022-04-18 09:18:17.947162000 +0200
++++ 00mainMenu.sh	2022-06-04 12:33:15.252222355 +0200
+@@ -180,7 +180,7 @@
+ OPTIONS+=(REPAIR "Repair Options")
+ OPTIONS+=(UPDATE "Check/Prepare RaspiBlitz Update")
+ OPTIONS+=(REBOOT "Reboot RaspiBlitz")
+-OPTIONS+=(OFF "PowerOff RaspiBlitz")
++OPTIONS+=(X708OFF "PowerOff RaspiBlitz and X708 UPS HAT")
+ 
+ CHOICE_HEIGHT=$(("${#OPTIONS[@]}/2+1"))
+ HEIGHT=$((CHOICE_HEIGHT+6))
+@@ -341,14 +341,14 @@
+                exit 1
+ 	          fi
+             ;;
+-        OFF)
++        X708OFF)
+ 	          clear
+ 	          confirmation "Are you sure?" "PowerOff" "Cancel" true 7 40
+ 	          confirmationShutdown=$?
+ 	          if [ $confirmationShutdown -eq 0 ]; then
+                clear
+                echo ""
+-               sudo /home/admin/config.scripts/blitz.shutdown.sh
++               sudo /usr/local/bin/x708softsd.sh
+                exit 1
+ 	          fi
+             ;;
+@@ -368,4 +368,4 @@
+ if [ "${exitCodeOfSubmenu}" != "0" ]; then
+   echo "# submenu signaled exit code '${exitCodeOfSubmenu}' --> forward to outside loop"
+ fi
+-exit ${exitCodeOfSubmenu}
+\ No newline at end of file
++exit ${exitCodeOfSubmenu}

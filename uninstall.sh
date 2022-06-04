@@ -7,8 +7,6 @@ sudo sed -i '/x708/d' /home/admin/.bash_aliases
 sudo rm /etc/x708pwr.sh
 sudo rm /usr/local/bin/x708softsd.sh
 
-sed -i '183c OPTIONS+=(OFF "PowerOff RaspiBlitz")' /home/admin/00mainMenu.sh
-sed -i '344c \ \ \ \ \ \ \ \ OFF)' /home/admin/00mainMenu.sh
-sed -i '351c \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sudo /home/admin/config.scripts/blitz.shutdown.sh' /home/admin/00mainMenu.sh
+patch -u -R /home/admin/00mainMenu.sh -i /home/admin/x708blitz/00mainMenu.sh.diff
 
 rm -rf /home/admin/x708blitz

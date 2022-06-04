@@ -87,8 +87,6 @@ sudo sed -i '$ i python3 /home/admin/x708blitz/x708.fan.py &' /etc/rc.local
 
 
 #Change OFF entry in RaspiBlitz main menu to perform X708 shutdown
-sed -i '183c OPTIONS+=(X708OFF "PowerOff RaspiBlitz and X708 UPS HAT")' /home/admin/00mainMenu.sh
-sed -i '344c \ \ \ \ \ \ \ \ X708OFF)' /home/admin/00mainMenu.sh
-sed -i '351c \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sudo /usr/local/bin/x708softsd.sh' /home/admin/00mainMenu.sh
+patch -u -b /home/admin/00mainMenu.sh -i /home/admin/x708blitz/00mainMenu.sh.diff
 
 
