@@ -21,10 +21,22 @@ def readVoltage(bus):
   return voltage
 
 
+def readCapacity(bus):
+
+  address = 0x36
+  read = bus.read_word_data(address, 4)
+  swapped = struct.unpack("<H", struct.pack(">H", read))[0]
+  capacity = swapped/256
+  if capacity > 100:
+     capacity = 100
+  return capacity
+
+
 bus = smbus.SMBus(1)
 
 status = ""
 voltage = readVoltage(bus)
+capacity = readCapacity(bus)
 pld = InputDevice(PLD_PIN).value
 
 if pld:
@@ -37,5 +49,5 @@ if pld and (voltage < MIN_VOLTAGE):
   status = "SHUTTING DOWN"
   subprocess.Popen("/usr/local/bin/x708softsd.sh", shell=True)
 
-print(status + "," + "{:.2f}".format(voltage) + "V,")
+print("{},{:.2f}V|{}%%,".format(status,voltage,capacity))
 
