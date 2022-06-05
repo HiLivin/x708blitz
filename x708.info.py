@@ -49,5 +49,5 @@ if pld and (voltage < MIN_VOLTAGE):
   status = "SHUTTING DOWN"
   subprocess.Popen("/usr/local/bin/x708softsd.sh", shell=True)
 
-print("{},{:.2f}V|{}%%,".format(status,voltage,capacity))
+print("{},{:.2f}V|{:.0f}%%,".format(status,voltage,capacity))
 
